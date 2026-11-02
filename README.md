@@ -85,14 +85,9 @@ classDiagram
         +String cpf
         +String endereco
         +String profissao
-        +List~Rendimento~ rendimentos
         +cadastrar()
         +atualizar()
         +remover()
-        +introduzirPedido()
-        +modificarPedido()
-        +consultarPedido()
-        +cancelarPedido()
     }
 
     class Rendimento {
@@ -101,23 +96,10 @@ classDiagram
     }
 
     class Agente {
-        <<abstract>>
         +int id
         +String nome
-        +String cnpj
         +String tipo
-        +avaliarPedido(PedidoAluguel)
-        +modificarPedido(PedidoAluguel)
-    }
-
-    class Empresa {
-        +String razaoSocial
-        +gerirFrota()
-    }
-
-    class Banco {
-        +String codigoBancario
-        +concederCredito(ContratoCredito)
+        +avaliarPedido()
     }
 
     class Automovel {
@@ -127,85 +109,38 @@ classDiagram
         +String marca
         +String modelo
         +String placa
-        +String proprietarioTipo
-        +boolean disponivel
+        +double diaria
     }
 
     class PedidoAluguel {
         +int id
-        +String dataPedido
-        +int diasAluguel
+        +String dataInicio
+        +int dias
         +double valorTotal
-        +String tipoPropriedadeContrato
         +String status
-        +String parecerFinanceiro
-        +submeterParaAnalise()
-        +aprovarFinanceiramente()
-        +rejeitarFinanceiramente()
-        +executarContrato()
-        +cancelar()
     }
 
-    class ContratoCredito {
-        +int id
-        +double valorFinanciado
-        +double taxaJurosMensal
-        +int numeroParcelas
-        +boolean aprovado
-    }
-
-    Cliente "1" *-- "1..3" Rendimento : possui (máx 3)
+    Cliente "1" *-- "1..3" Rendimento : possui
     Cliente "1" --> "0..*" PedidoAluguel : realiza
-    PedidoAluguel "0..*" --> "1" Automovel : refere-se a
-    PedidoAluguel "1" --> "0..1" ContratoCredito : pode estar associado a
-    Agente <|-- Empresa
-    Agente <|-- Banco
-    Agente "1" --> "0..*" PedidoAluguel : analisa / modifica
-    Banco "1" --> "0..*" ContratoCredito : concede
+    PedidoAluguel "0..*" --> "1" Automovel : refere-se
+    Agente "1" --> "0..*" PedidoAluguel : analisa
 
 ### 3. Diagrama de Pacotes (Visão Lógica)
 flowchart TB
-    subgraph Subsistema_Web ["📦 Subsistema de Construção Dinâmica das Páginas Web (Front-end)"]
-        direction LR
-        UI_Clientes["Módulo UI de Clientes\n(Formulários e Tabelas Bootstrap 5)"]
-        UI_Pedidos["Módulo UI de Pedidos e Contratos\n(Visão Cliente & Visão Agente)"]
-        Render_DOM["Motor de Renderização Dinâmica\n(Manipulação DOM / JavaScript)"]
+    subgraph FrontEnd [Subsistema Web]
+        UI[Componentes Bootstrap e DOM]
     end
 
-    subgraph Subsistema_Gestao ["📦 Subsistema de Gestão de Pedidos e Contratos (Lógica e Persistência)"]
-        direction LR
-        Servico_API["Cliente HTTP\n(Fetch API Service)"]
-        Regras_Negocio["Controlador de Negócios\n(Validação até 3 Rendimentos, Parecer e Crédito)"]
-        API_REST["Servidor Central REST\n(JSON Server + db.json)"]
+    subgraph BackEnd [Subsistema de Gestão]
+        API[Fetch API e JSON Server]
     end
 
-    UI_Clientes --> Render_DOM
-    UI_Pedidos --> Render_DOM
-    Render_DOM --> Regras_Negocio
-    Regras_Negocio --> Servico_API
-    Servico_API ==>|"Requisições HTTP / JSON\n(GET, POST, PUT, PATCH, DELETE)"| API_REST
+    UI --> API
 
 ### 4. Diagrama de Componentes
 flowchart LR
-    subgraph Dispositivos_Remotos ["Computadores Locais (Acesso via Internet)"]
-        Comp_Cliente["💻 Navegador do Cliente\n(HTML5 / CSS3 / JS / Bootstrap 5)"]
-        Comp_Agente["💻 Navegador do Agente (Empresa/Banco)\n(HTML5 / CSS3 / JS / Bootstrap 5)"]
-    end
-
-    Internet(("🌐 Internet\n(Protocolo HTTP / Fetch API)"))
-
-    subgraph Servidor_Central ["Servidor Central"]
-        Comp_Web["⚙️ Subsistema de Páginas Web\n(Assets Estáticos e Renderizador JS)"]
-        Comp_Gestao["⚙️ Subsistema de Gestão de Pedidos e Contratos\n(API REST - JSON Server)"]
-        DB[("🗄️ Base de Dados\n(db.json)")]
-    end
-
-    Comp_Cliente <--> Internet
-    Comp_Agente <--> Internet
-    Internet <--> Comp_Web
-    Internet <--> Comp_Gestao
-    Comp_Gestao <--> DB
-
+    Navegador[Navegador Web HTML/JS] -->|HTTP / Fetch API| Servidor[JSON Server REST]
+    Servidor --> DB[(db.json)]
 ---
 
 ## 🔄 Evolução e Revisão dos Modelos ao Longo do Projeto
