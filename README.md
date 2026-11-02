@@ -42,7 +42,6 @@ O **DriveSys** é um sistema web de apoio à gestão de aluguéis de automóveis
 ## 📐 Modelagem do Sistema (UML)
 
 ### 1. Diagrama de Casos de Uso
-### 1. Diagrama de Casos de Uso
 ```mermaid
 flowchart LR
     Cliente([Cliente])
