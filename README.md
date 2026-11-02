@@ -42,16 +42,169 @@ O **DriveSys** é um sistema web de apoio à gestão de aluguéis de automóveis
 ## 📐 Modelagem do Sistema (UML)
 
 ### 1. Diagrama de Casos de Uso
-*(Copie o bloco Mermaid da secção 2.1 acima)*
+*```mermaid
+flowchart LR
+    Cliente(["👤 Cliente (Usuário Individual)"])
+    Agente(["🏢 Agente (Empresa / Banco)"])
+    Banco(["🏦 Banco Agente"])
+
+    Agente <|-- Banco
+
+    subgraph Sistema de Aluguel de Carros
+        UC1("Realizar Cadastro Prévio (CRUD Cliente)")
+        UC2("Introduzir Pedido de Aluguel")
+        UC3("Consultar Status do Pedido")
+        UC4("Modificar Pedido de Aluguel")
+        UC5("Cancelar Pedido de Aluguel")
+        UC6("Avaliar Pedido Financeiramente")
+        UC7("Conceder Contrato de Crédito")
+        UC8("Executar Contrato de Aluguel")
+    end
+
+    Cliente --> UC1
+    Cliente --> UC2
+    Cliente --> UC3
+    Cliente --> UC4
+    Cliente --> UC5
+
+    Agente --> UC4
+    Agente --> UC6
+    Agente --> UC8
+    Banco --> UC7
+
+    UC2 -.->|"<<include>>"| UC1
+    UC6 -.->|"<<extend>>\n[se requer crédito]"| UC7
+    UC8 -.->|"<<include>>\n[parecer positivo]"| UC6)*
 
 ### 2. Diagrama de Classes
-*(Copie o bloco Mermaid da secção 2.2 acima)*
+*classDiagram
+    class Cliente {
+        +int id
+        +String nome
+        +String rg
+        +String cpf
+        +String endereco
+        +String profissao
+        +List~Rendimento~ rendimentos
+        +cadastrar()
+        +atualizar()
+        +remover()
+        +introduzirPedido()
+        +modificarPedido()
+        +consultarPedido()
+        +cancelarPedido()
+    }
+
+    class Rendimento {
+        +String entidadeEmpregadora
+        +double valorRendimento
+    }
+
+    class Agente {
+        <<abstract>>
+        +int id
+        +String nome
+        +String cnpj
+        +String tipo
+        +avaliarPedido(PedidoAluguel)
+        +modificarPedido(PedidoAluguel)
+    }
+
+    class Empresa {
+        +String razaoSocial
+        +gerirFrota()
+    }
+
+    class Banco {
+        +String codigoBancario
+        +concederCredito(ContratoCredito)
+    }
+
+    class Automovel {
+        +int id
+        +String matricula
+        +int ano
+        +String marca
+        +String modelo
+        +String placa
+        +String proprietarioTipo
+        +boolean disponivel
+    }
+
+    class PedidoAluguel {
+        +int id
+        +String dataPedido
+        +int diasAluguel
+        +double valorTotal
+        +String tipoPropriedadeContrato
+        +String status
+        +String parecerFinanceiro
+        +submeterParaAnalise()
+        +aprovarFinanceiramente()
+        +rejeitarFinanceiramente()
+        +executarContrato()
+        +cancelar()
+    }
+
+    class ContratoCredito {
+        +int id
+        +double valorFinanciado
+        +double taxaJurosMensal
+        +int numeroParcelas
+        +boolean aprovado
+    }
+
+    Cliente "1" *-- "1..3" Rendimento : possui (máx 3)
+    Cliente "1" --> "0..*" PedidoAluguel : realiza
+    PedidoAluguel "0..*" --> "1" Automovel : refere-se a
+    PedidoAluguel "1" --> "0..1" ContratoCredito : pode estar associado a
+    Agente <|-- Empresa
+    Agente <|-- Banco
+    Agente "1" --> "0..*" PedidoAluguel : analisa / modifica
+    Banco "1" --> "0..*" ContratoCredito : concede*
 
 ### 3. Diagrama de Pacotes (Visão Lógica)
-*(Copie o bloco Mermaid da secção 2.3 acima)*
+*flowchart TB
+    subgraph Subsistema_Web ["📦 Subsistema de Construção Dinâmica das Páginas Web (Front-end)"]
+        direction LR
+        UI_Clientes["Módulo UI de Clientes\n(Formulários e Tabelas Bootstrap 5)"]
+        UI_Pedidos["Módulo UI de Pedidos e Contratos\n(Visão Cliente & Visão Agente)"]
+        Render_DOM["Motor de Renderização Dinâmica\n(Manipulação DOM / JavaScript)"]
+    end
+
+    subgraph Subsistema_Gestao ["📦 Subsistema de Gestão de Pedidos e Contratos (Lógica e Persistência)"]
+        direction LR
+        Servico_API["Cliente HTTP\n(Fetch API Service)"]
+        Regras_Negocio["Controlador de Negócios\n(Validação até 3 Rendimentos, Parecer e Crédito)"]
+        API_REST["Servidor Central REST\n(JSON Server + db.json)"]
+    end
+
+    UI_Clientes --> Render_DOM
+    UI_Pedidos --> Render_DOM
+    Render_DOM --> Regras_Negocio
+    Regras_Negocio --> Servico_API
+    Servico_API ==>|"Requisições HTTP / JSON\n(GET, POST, PUT, PATCH, DELETE)"| API_REST*
 
 ### 4. Diagrama de Componentes
-*(Copie o bloco Mermaid da secção 2.4 acima)*
+*flowchart LR
+    subgraph Dispositivos_Remotos ["Computadores Locais (Acesso via Internet)"]
+        Comp_Cliente["💻 Navegador do Cliente\n(HTML5 / CSS3 / JS / Bootstrap 5)"]
+        Comp_Agente["💻 Navegador do Agente (Empresa/Banco)\n(HTML5 / CSS3 / JS / Bootstrap 5)"]
+    end
+
+    Internet(("🌐 Internet\n(Protocolo HTTP / Fetch API)"))
+
+    subgraph Servidor_Central ["Servidor Central"]
+        Comp_Web["⚙️ Subsistema de Páginas Web\n(Assets Estáticos e Renderizador JS)"]
+        Comp_Gestao["⚙️ Subsistema de Gestão de Pedidos e Contratos\n(API REST - JSON Server)"]
+        DB[("🗄️ Base de Dados\n(db.json)")]
+    end
+
+    Comp_Cliente <--> Internet
+    Comp_Agente <--> Internet
+    Internet <--> Comp_Web
+    Internet <--> Comp_Gestao
+    Comp_Gestao <--> DB*
 
 ---
 
