@@ -44,21 +44,21 @@ O **DriveSys** é um sistema web de apoio à gestão de aluguéis de automóveis
 ### 1. Diagrama de Casos de Uso
 ```mermaid
 flowchart LR
-    Cliente(["👤 Cliente (Usuário Individual)"])
-    Agente(["🏢 Agente (Empresa / Banco)"])
-    Banco(["🏦 Banco Agente"])
+    Cliente([Cliente])
+    Agente([Agente Empresa/Banco])
+    Banco([Banco Agente])
 
     Agente <|-- Banco
 
     subgraph Sistema de Aluguel de Carros
-        UC1("Realizar Cadastro Prévio (CRUD Cliente)")
-        UC2("Introduzir Pedido de Aluguel")
-        UC3("Consultar Status do Pedido")
-        UC4("Modificar Pedido de Aluguel")
-        UC5("Cancelar Pedido de Aluguel")
-        UC6("Avaliar Pedido Financeiramente")
-        UC7("Conceder Contrato de Crédito")
-        UC8("Executar Contrato de Aluguel")
+        UC1(Realizar Cadastro Prévio)
+        UC2(Introduzir Pedido de Aluguel)
+        UC3(Consultar Status do Pedido)
+        UC4(Modificar Pedido de Aluguel)
+        UC5(Cancelar Pedido de Aluguel)
+        UC6(Avaliar Pedido Financeiramente)
+        UC7(Conceder Contrato de Crédito)
+        UC8(Executar Contrato de Aluguel)
     end
 
     Cliente --> UC1
@@ -72,9 +72,9 @@ flowchart LR
     Agente --> UC8
     Banco --> UC7
 
-    UC2 -.->|"<<include>>"| UC1
-    UC6 -.->|"<<extend>>\n[se requer crédito]"| UC7
-    UC8 -.->|"<<include>>\n[parecer positivo]"| UC6
+    UC2 -.->|include| UC1
+    UC6 -.->|extend| UC7
+    UC8 -.->|include| UC6
 
 ### 2. Diagrama de Classes
 classDiagram
