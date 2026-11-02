@@ -42,7 +42,7 @@ O **DriveSys** é um sistema web de apoio à gestão de aluguéis de automóveis
 ## 📐 Modelagem do Sistema (UML)
 
 ### 1. Diagrama de Casos de Uso
-*```mermaid
+```mermaid
 flowchart LR
     Cliente(["👤 Cliente (Usuário Individual)"])
     Agente(["🏢 Agente (Empresa / Banco)"])
@@ -74,10 +74,10 @@ flowchart LR
 
     UC2 -.->|"<<include>>"| UC1
     UC6 -.->|"<<extend>>\n[se requer crédito]"| UC7
-    UC8 -.->|"<<include>>\n[parecer positivo]"| UC6)*
+    UC8 -.->|"<<include>>\n[parecer positivo]"| UC6)
 
 ### 2. Diagrama de Classes
-*classDiagram
+classDiagram
     class Cliente {
         +int id
         +String nome
@@ -161,10 +161,10 @@ flowchart LR
     Agente <|-- Empresa
     Agente <|-- Banco
     Agente "1" --> "0..*" PedidoAluguel : analisa / modifica
-    Banco "1" --> "0..*" ContratoCredito : concede*
+    Banco "1" --> "0..*" ContratoCredito : concede
 
 ### 3. Diagrama de Pacotes (Visão Lógica)
-*flowchart TB
+flowchart TB
     subgraph Subsistema_Web ["📦 Subsistema de Construção Dinâmica das Páginas Web (Front-end)"]
         direction LR
         UI_Clientes["Módulo UI de Clientes\n(Formulários e Tabelas Bootstrap 5)"]
@@ -183,10 +183,10 @@ flowchart LR
     UI_Pedidos --> Render_DOM
     Render_DOM --> Regras_Negocio
     Regras_Negocio --> Servico_API
-    Servico_API ==>|"Requisições HTTP / JSON\n(GET, POST, PUT, PATCH, DELETE)"| API_REST*
+    Servico_API ==>|"Requisições HTTP / JSON\n(GET, POST, PUT, PATCH, DELETE)"| API_REST
 
 ### 4. Diagrama de Componentes
-*flowchart LR
+flowchart LR
     subgraph Dispositivos_Remotos ["Computadores Locais (Acesso via Internet)"]
         Comp_Cliente["💻 Navegador do Cliente\n(HTML5 / CSS3 / JS / Bootstrap 5)"]
         Comp_Agente["💻 Navegador do Agente (Empresa/Banco)\n(HTML5 / CSS3 / JS / Bootstrap 5)"]
@@ -204,7 +204,7 @@ flowchart LR
     Comp_Agente <--> Internet
     Internet <--> Comp_Web
     Internet <--> Comp_Gestao
-    Comp_Gestao <--> DB*
+    Comp_Gestao <--> DB
 
 ---
 
