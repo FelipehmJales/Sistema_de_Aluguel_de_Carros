@@ -1,0 +1,131 @@
+{
+  "clientes": [
+    {
+      "id": 1,
+      "nome": "Carlos Eduardo Mendes",
+      "rg": "MG-12.345.678",
+      "cpf": "123.456.789-00",
+      "endereco": "Av. Afonso Pena, 1500, Centro, Belo Horizonte - MG",
+      "profissao": "Engenheiro de Software",
+      "rendimentos": [
+        {
+          "entidade": "Tech Solutions S.A.",
+          "valor": 8500
+        },
+        {
+          "entidade": "Consultoria Dev Autônoma",
+          "valor": 3200
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "nome": "Mariana Costa Silva",
+      "rg": "MG-87.654.321",
+      "cpf": "987.654.321-11",
+      "endereco": "Rua da Bahia, 900, Lourdes, Belo Horizonte - MG",
+      "profissao": "Arquiteta Urbanista",
+      "rendimentos": [
+        {
+          "entidade": "Construtora Horizonte Ltda",
+          "valor": 6800
+        }
+      ]
+    }
+  ],
+  "automoveis": [
+    {
+      "id": 1,
+      "matricula": "MAT-2025-001",
+      "ano": 2025,
+      "marca": "Volkswagen",
+      "modelo": "Nivus Highline 200 TSI",
+      "placa": "RMA-4B21",
+      "proprietarioAtual": "Empresa",
+      "diaria": 195
+    },
+    {
+      "id": 2,
+      "matricula": "MAT-2024-002",
+      "ano": 2024,
+      "marca": "Toyota",
+      "modelo": "Corolla XEi 2.0",
+      "placa": "QXZ-9C10",
+      "proprietarioAtual": "Banco",
+      "diaria": 230
+    },
+    {
+      "id": 3,
+      "matricula": "MAT-2024-003",
+      "ano": 2024,
+      "marca": "Jeep",
+      "modelo": "Compass Longitude",
+      "placa": "PAB-7D88",
+      "proprietarioAtual": "Empresa",
+      "diaria": 260
+    },
+    {
+      "id": 4,
+      "matricula": "MAT-2023-004",
+      "ano": 2023,
+      "marca": "Fiat",
+      "modelo": "Pulse Audace Turbo",
+      "placa": "OXY-3E45",
+      "proprietarioAtual": "Empresa",
+      "diaria": 160
+    }
+  ],
+  "agentes": [
+    {
+      "id": 1,
+      "nome": "Localiza Rent a Car S.A.",
+      "tipo": "Empresa",
+      "documento": "16.670.085/0001-55"
+    },
+    {
+      "id": 2,
+      "nome": "Banco Itaú Financiamentos",
+      "tipo": "Banco",
+      "documento": "60.701.190/0001-04"
+    },
+    {
+      "id": 3,
+      "nome": "Banco Santander Leasing",
+      "tipo": "Banco",
+      "documento": "90.400.888/0001-42"
+    }
+  ],
+  "pedidos": [
+    {
+      "id": 1,
+      "clienteId": 1,
+      "automovelId": 1,
+      "dataInicio": "2026-11-10",
+      "dias": 15,
+      "valorTotal": 2925,
+      "tipoPropriedade": "Empresa",
+      "requerCredito": true,
+      "contratoCredito": {
+        "bancoId": 2,
+        "valorFinanciado": 2925,
+        "parcelas": 6,
+        "taxaJuros": 1.49
+      },
+      "status": "Em Análise Financeira",
+      "parecerAgente": "Aguardando avaliação do agente financeiro."
+    },
+    {
+      "id": 2,
+      "clienteId": 2,
+      "automovelId": 2,
+      "dataInicio": "2026-11-12",
+      "dias": 7,
+      "valorTotal": 1610,
+      "tipoPropriedade": "Banco",
+      "requerCredito": false,
+      "contratoCredito": null,
+      "status": "Aprovado - Aguardando Execução",
+      "parecerAgente": "Renda compatível. Parecer positivo concedido pela Localiza Rent a Car."
+    }
+  ]
+}

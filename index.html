@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DriveSys - Sistema de Aluguel de Carros (DIW - LAB02)</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-light">
+
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#">
+        <i class="bi bi-car-front-fill me-2"></i>DriveSys | Gestão de Aluguéis
+      </a>
+      <span class="navbar-text text-white-50 small">
+        PUC Minas • Engenharia de Software • DIW
+      </span>
+    </div>
+  </nav>
+
+
+  <div class="container mt-3">
+    <div id="apiAlert" class="alert alert-warning d-none shadow-sm" role="alert">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>
+      <strong>JSON Server não detectado em <code>http://localhost:3000</code>!</strong>
+      O sistema ativou o <em>Modo de Contingência Local (LocalStorage)</em> para que possas testar a interface imediatamente. Para persistir no <code>db.json</code>, executa <code>npx json-server@0.17.4 --watch db.json --port 3000</code>.
+    </div>
+  </div>
+
+
+  <main class="container my-4">
+
+    <ul class="nav nav-pills nav-fill bg-white p-2 rounded shadow-sm mb-4" id="mainTabs" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active fw-semibold" id="clientes-tab" data-bs-toggle="pill" data-bs-target="#tab-clientes" type="button" role="tab">
+          <i class="bi bi-people-fill me-1"></i> 1. CRUD de Clientes (Cadastro Prévio)
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link fw-semibold" id="pedidos-tab" data-bs-toggle="pill" data-bs-target="#tab-pedidos" type="button" role="tab">
+          <i class="bi bi-file-earmark-Plus-fill me-1"></i> 2. Portal do Cliente (Pedidos de Aluguel)
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link fw-semibold" id="agentes-tab" data-bs-toggle="pill" data-bs-target="#tab-agentes" type="button" role="tab">
+          <i class="bi bi-bank2 me-1"></i> 3. Portal do Agente (Análise Financeira e Crédito)
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link fw-semibold" id="frota-tab" data-bs-toggle="pill" data-bs-target="#tab-frota" type="button" role="tab">
+          <i class="bi bi-truck-front-fill me-1"></i> 4. Frota de Automóveis
+        </button>
+      </li>
+    </ul>
+
+    <div class="tab-content" id="mainTabsContent">
+
+      <div class="tab-pane fade show active" id="tab-clientes" role="tabpanel">
+        <div class="row g-4">
+
+          <div class="col-lg-5">
+            <div class="card border-0 shadow-sm">
+              <div class="card-header bg-white py-3">
+                <h5 class="card-title mb-0 fw-bold text-primary" id="formClienteTitulo">
+                  <i class="bi bi-person-plus-fill me-2"></i>Cadastrar Novo Cliente
+                </h5>
+              </div>
+              <div class="card-body">
+                <form id="formCliente">
+                  <input type="hidden" id="clienteId">
+
+                  <div class="mb-3">
+                    <label class="form-label fw-semibold">Nome Completo *</label>
+                    <input type="text" id="clienteNome" class="form-control" placeholder="Ex: João da Silva" required>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label fw-semibold">RG *</label>
+                      <input type="text" id="clienteRg" class="form-control" placeholder="MG-00.000.000" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label fw-semibold">CPF *</label>
+                      <input type="text" id="clienteCpf" class="form-control" placeholder="000.000.000-00" required>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label fw-semibold">Endereço Completo *</label>
+                    <input type="text" id="clienteEndereco" class="form-control" placeholder="Rua, Número, Bairro, Cidade - UF" required>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label fw-semibold">Profissão *</label>
+                    <input type="text" id="clienteProfissao" class="form-control" placeholder="Ex: Analista de Sistemas" required>
+                  </div>
+
+                  <hr>
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <label class="form-label fw-bold text-secondary mb-0">
+                      Entidades Empregadoras e Rendimentos (Máx. 3)
+                    </label>
+                    <button type="button" class="btn btn-sm btn-outline-primary" id="btnAddRendimento">
+                      <i class="bi bi-plus-circle me-1"></i>Adicionar
+                    </button>
+                  </div>
+                  <div id="listaRendimentosInputs">
+
+                  </div>
+
+                  <div class="d-grid gap-2 mt-4">
+                    <button type="submit" class="btn btn-primary fw-semibold">
+                      <i class="bi bi-save me-1"></i>Guardar Cliente
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary d-none" id="btnCancelarEdicaoCliente">
+                      Cancelar Edição
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-lg-7">
+            <div class="card border-0 shadow-sm">
+              <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0 fw-bold text-dark">
+                  <i class="bi bi-card-list me-2"></i>Clientes Cadastrados
+                </h5>
+                <span class="badge bg-primary rounded-pill" id="contadorClientes">0</span>
+              </div>
+              <div class="card-body p-0">
+                <div class="table-responsive">
+                  <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                      <tr>
+                        <th>Cliente / Documentos</th>
+                        <th>Profissão & Endereço</th>
+                        <th>Rendimentos (Até 3)</th>
+                        <th class="text-end">Ações</th>
+                      </tr>
+                    </thead>
+                    <tbody id="tabelaClientesBody">
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane fade" id="tab-pedidos" role="tabpanel">
+        <div class="row g-4">
+
+          <div class="col-lg-5">
+            <div class="card border-0 shadow-sm">
+              <div class="card-header bg-white py-3">
+                <h5 class="card-title mb-0 fw-bold text-primary" id="formPedidoTitulo">
+                  <i class="bi bi-calendar2-check-fill me-2"></i>Introduzir Pedido de Aluguel
+                </h5>
+              </div>
+              <div class="card-body">
+                <form id="formPedido">
+                  <input type="hidden" id="pedidoId">
+
+                  <div class="mb-3">
+                    <label class="form-label fw-semibold">Cliente Contratante (Cadastro Prévio) *</label>
+                    <select id="pedidoClienteId" class="form-select" required>
+                      <option value="">Selecione um cliente cadastrado...</option>
+                    </select>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label fw-semibold">Automóvel Desejado *</label>
+                    <select id="pedidoAutomovelId" class="form-select" required>
+                      <option value="">Selecione um veículo da frota...</option>
+                    </select>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label fw-semibold">Data de Início *</label>
+                      <input type="date" id="pedidoDataInicio" class="form-control" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label fw-semibold">Duração (Dias) *</label>
+                      <input type="number" id="pedidoDias" class="form-control" min="1" max="365" value="7" required>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label fw-semibold">Registo de Propriedade no Contrato *</label>
+                    <select id="pedidoTipoPropriedade" class="form-select" required>
+                      <option value="Empresa">Propriedade da Empresa Locadora (Aluguel Simples)</option>
+                      <option value="Banco">Propriedade do Banco Agente (Leasing / Alienação)</option>
+                      <option value="Cliente">Propriedade do Cliente (Aluguel com Opção de Compra)</option>
+                    </select>
+                  </div>
+
+                  <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox" id="pedidoRequerCredito">
+                    <label class="form-check-label fw-semibold" for="pedidoRequerCredito">
+                      Associar a um Contrato de Crédito Bancário
+                    </label>
+                  </div>
+
+                  <div id="blocoContratoCredito" class="p-3 bg-light rounded border mb-3 d-none">
+                    <h6 class="fw-bold text-secondary mb-2">
+                      <i class="bi bi-bank me-1"></i>Dados do Contrato de Crédito
+                    </h6>
+                    <div class="mb-2">
+                      <label class="form-label small fw-semibold">Banco Agente Concessor *</label>
+                      <select id="pedidoBancoId" class="form-select form-select-sm">
+                      </select>
+                    </div>
+                    <div class="row">
+                      <div class="col-6">
+                        <label class="form-label small fw-semibold">Nº de Parcelas</label>
+                        <select id="pedidoParcelas" class="form-select form-select-sm">
+                          <option value="3">3x (1.49% a.m.)</option>
+                          <option value="6">6x (1.49% a.m.)</option>
+                          <option value="12">12x (1.69% a.m.)</option>
+                          <option value="24">24x (1.89% a.m.)</option>
+                        </select>
+                      </div>
+                      <div class="col-6">
+                        <label class="form-label small fw-semibold">Valor Estimado</label>
+                        <input type="text" id="pedidoValorEstimado" class="form-control form-control-sm" readonly>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="d-grid gap-2 mt-3">
+                    <button type="submit" class="btn btn-success fw-semibold">
+                      <i class="bi bi-send-check-fill me-1"></i>Submeter Pedido de Aluguel
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary d-none" id="btnCancelarEdicaoPedido">
+                      Cancelar Modificação
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-7">
+            <div class="card border-0 shadow-sm">
+              <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0 fw-bold text-dark">
+                  <i class="bi bi-clock-history me-2"></i>Meus Pedidos de Aluguel e Status
+                </h5>
+                <span class="badge bg-success rounded-pill" id="contadorPedidos">0</span>
+              </div>
+              <div class="card-body" id="listaPedidosCliente">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="tab-agentes" role="tabpanel">
+        <div class="card border-0 shadow-sm">
+          <div class="card-header bg-white py-3">
+            <h5 class="card-title mb-0 fw-bold text-dark">
+              <i class="bi bi-shield-check me-2 text-primary"></i>Painel de Avaliação Financeira de Agentes (Empresas e Bancos)
+            </h5>
+            <p class="text-muted small mb-0 mt-1">
+              Os agentes avaliam os pedidos do ponto de vista financeiro (analisando os rendimentos do cliente) e emitem parecer positivo ou negativo.
+            </p>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered align-middle">
+                <thead class="table-light">
+                  <tr>
+                    <th>#ID / Data</th>
+                    <th>Contratante & Rendimentos</th>
+                    <th>Automóvel & Propriedade</th>
+                    <th>Valor & Contrato de Crédito</th>
+                    <th>Status Atual & Parecer</th>
+                    <th class="text-center">Ações do Agente</th>
+                  </tr>
+                </thead>
+                <tbody id="tabelaAgentesBody">
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="tab-frota" role="tabpanel">
+        <div class="row g-4">
+          <div class="col-lg-4">
+            <div class="card border-0 shadow-sm">
+              <div class="card-header bg-white py-3">
+                <h5 class="card-title mb-0 fw-bold text-primary">
+                  <i class="bi bi-plus-square-fill me-2"></i>Registar Automóvel
+                </h5>
+              </div>
+              <div class="card-body">
+                <form id="formAutomovel">
+                  <div class="mb-2">
+                    <label class="form-label small fw-semibold">Matrícula do Sistema *</label>
+                    <input type="text" id="autoMatricula" class="form-control" placeholder="Ex: MAT-2026-005" required>
+                  </div>
+                  <div class="row">
+                    <div class="col-6 mb-2">
+                      <label class="form-label small fw-semibold">Marca *</label>
+                      <input type="text" id="autoMarca" class="form-control" placeholder="Ex: Honda" required>
+                    </div>
+                    <div class="col-6 mb-2">
+                      <label class="form-label small fw-semibold">Modelo *</label>
+                      <input type="text" id="autoModelo" class="form-control" placeholder="Ex: HR-V" required>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-6 mb-2">
+                      <label class="form-label small fw-semibold">Ano *</label>
+                      <input type="number" id="autoAno" class="form-control" value="2025" required>
+                    </div>
+                    <div class="col-6 mb-2">
+                      <label class="form-label small fw-semibold">Placa *</label>
+                      <input type="text" id="autoPlaca" class="form-control" placeholder="ABC-1D23" required>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-6 mb-3">
+                      <label class="form-label small fw-semibold">Propriedade Atual</label>
+                      <select id="autoProprietario" class="form-select">
+                        <option value="Empresa">Empresa</option>
+                        <option value="Banco">Banco</option>
+                        <option value="Cliente">Cliente</option>
+                      </select>
+                    </div>
+                    <div class="col-6 mb-3">
+                      <label class="form-label small fw-semibold">Diária (R$) *</label>
+                      <input type="number" id="autoDiaria" class="form-control" value="180" required>
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary w-100 fw-semibold">
+                    <i class="bi bi-check2-circle me-1"></i>Adicionar à Frota
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-8">
+            <div class="row g-3" id="listaFrotaCards">
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
