@@ -74,7 +74,7 @@ flowchart LR
 
     UC2 -.->|"<<include>>"| UC1
     UC6 -.->|"<<extend>>\n[se requer crédito]"| UC7
-    UC8 -.->|"<<include>>\n[parecer positivo]"| UC6)
+    UC8 -.->|"<<include>>\n[parecer positivo]"| UC6
 
 ### 2. Diagrama de Classes
 classDiagram
