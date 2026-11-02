@@ -73,8 +73,10 @@ flowchart LR
     UC2 -.->|include| UC1
     UC6 -.->|extend| UC7
     UC8 -.->|include| UC6
+```
 
 ### 2. Diagrama de Classes
+```mermaid
 classDiagram
     class Cliente {
         +int id
@@ -122,8 +124,10 @@ classDiagram
     Cliente "1" --> "0..*" PedidoAluguel : realiza
     PedidoAluguel "0..*" --> "1" Automovel : refere-se
     Agente "1" --> "0..*" PedidoAluguel : analisa
+```
 
 ### 3. Diagrama de Pacotes (Visão Lógica)
+```mermaid
 flowchart TB
     subgraph FrontEnd [Subsistema Web]
         UI[Componentes Bootstrap e DOM]
@@ -134,11 +138,14 @@ flowchart TB
     end
 
     UI --> API
+```
 
 ### 4. Diagrama de Componentes
+```mermaid
 flowchart LR
     Navegador[Navegador Web HTML/JS] -->|HTTP / Fetch API| Servidor[JSON Server REST]
     Servidor --> DB[(db.json)]
+```
 ---
 
 ## 🔄 Evolução e Revisão dos Modelos ao Longo do Projeto
