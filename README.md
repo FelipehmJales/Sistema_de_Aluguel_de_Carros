@@ -159,7 +159,7 @@ flowchart LR
 
 1. Clone este repositório:
    ```bash
-   git clone [https://github.com/SEU-USUARIO/sistema-aluguel-carros.git](https://github.com/SEU-USUARIO/sistema-aluguel-carros.git)
+   git clone [https://github.com/SEU-USUARIO/sistema-aluguel-carros.git](https://github.com/FelipehmJales/sistema-aluguel-carros.git)
    cd sistema-aluguel-carros
    ```
 2. Inicie a API REST simulada com o **JSON Server**:
