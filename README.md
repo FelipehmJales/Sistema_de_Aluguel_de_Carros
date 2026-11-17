@@ -47,7 +47,7 @@ O **DriveSys** é um sistema web modular de apoio à gestão de aluguéis de aut
 
 ### 1. Diagrama de Casos de Uso (UML)
 
-![Diagrama de Casos de Uso UML](docs/casos-de-uso.png)
+![Diagrama UML](https://www.plantuml.com/plantuml/png/VPFFJXin4CRl-nIZdE0GcWtvarG8GGDKbLe95N7hPMGFsn5UExAz4T3sONhikO_0YzNhNGEnr3sjv_lcvz7CUiwSH-kRMXMAxZnu0vQhxnuaMnAUZIxSFUijMgnXY-8UAxhnZugWjL5NYee2XJSMHhUkUVvjsOm07OG0mpbv6yMaFKMhFoVhl6gZR_hWijvQSWZlu0DgOGvZSkUct6ZqMhIZK1HzDJZvEHwd-_V4T4_tYL9YNng1qONb7TqyEXZ33JjFDO8aE5TDrP1gZnkqrhWH_2W06aS2NQ1kDvCo45y95J-X3KaIdRS6hktpdrsQHqZAe6c0pXjFshC8c3OlHGy-cuhrOGAd6NWSm8zaIGiEt0LAuu12VIsv9ksDI-1n1iu2-4bxQsJpn1QkIR8qRrfCt2pZve7xOYJViS01R9vXYu1jZ7QDyaFO8iEMBOPQa1gYbXcrQgVfd8ap2LMzHH-vJVWBahr9u2e3rosuGyMlrQvOj_NPOZjFIkHwdomdWRny8D7uDoNZdwZOnPQjsLecYRA_8p3P7IMCquC9G7WEfdx-koC56k7A6ey9B3DmsWrNaAIXVaDYyUjrGSRZq-v55VsM9ANCXUDScEN2F1SMkR0iqi8b98iNMRpUZyj95fT54RSsnQ6Fk0z7HrrRy1vEJbWBrKWwFMszsO0t7_0M0zvom5l_toidoLjdNWkkeFDcqQC7JrfssBHtLXbr5ZAQMlq3)
 
 <details>
 <summary>Ver código-fonte PlantUML do Diagrama de Casos de Uso</summary>
