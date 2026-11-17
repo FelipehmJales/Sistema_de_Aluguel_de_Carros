@@ -3,6 +3,8 @@
     {
       "id": 1,
       "nome": "Carlos Eduardo Mendes",
+      "email": "carlos@email.com",
+      "senha": "123",
       "rg": "MG-12.345.678",
       "cpf": "123.456.789-00",
       "endereco": "Av. Afonso Pena, 1500, Centro, Belo Horizonte - MG",
@@ -21,6 +23,8 @@
     {
       "id": 2,
       "nome": "Mariana Costa Silva",
+      "email": "mariana@email.com",
+      "senha": "123",
       "rg": "MG-87.654.321",
       "cpf": "987.654.321-11",
       "endereco": "Rua da Bahia, 900, Lourdes, Belo Horizonte - MG",
@@ -79,25 +83,30 @@
     {
       "id": 1,
       "nome": "Localiza Rent a Car S.A.",
+      "email": "contato@localiza.com",
+      "senha": "123",
       "tipo": "Empresa",
       "documento": "16.670.085/0001-55"
     },
     {
       "id": 2,
       "nome": "Banco Itaú Financiamentos",
+      "email": "credito@itau.com",
+      "senha": "123",
       "tipo": "Banco",
       "documento": "60.701.190/0001-04"
     },
     {
       "id": 3,
       "nome": "Banco Santander Leasing",
+      "email": "leasing@santander.com",
+      "senha": "123",
       "tipo": "Banco",
       "documento": "90.400.888/0001-42"
     }
   ],
   "pedidos": [
     {
-      "id": 1,
       "clienteId": 1,
       "automovelId": 1,
       "dataInicio": "2026-11-10",
@@ -111,8 +120,9 @@
         "parcelas": 6,
         "taxaJuros": 1.49
       },
-      "status": "Em Análise Financeira",
-      "parecerAgente": "Aguardando avaliação do agente financeiro."
+      "status": "Aprovado - Aguardando Execução",
+      "parecerAgente": "Aprovado financeiramente por Localiza Rent a Car S.A..",
+      "id": 1
     },
     {
       "id": 2,
