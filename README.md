@@ -43,15 +43,13 @@ O **DriveSys** é um sistema web modular de apoio à gestão de aluguéis de aut
 
 ## 📐 Modelagem do Sistema (UML)
 
-> **Nota sobre a Notação UML:** Os diagramas de Casos de Uso, Pacotes e Componentes abaixo seguem estritamente a especificação **UML 2.5** (utilizando atores, elipses de casos de uso com estereótipos `<<include>>` e `<<extend>>`, pacotes com dependências e componentes com interfaces), gerados a partir de código **PlantUML**.
+> **Nota sobre a Notação UML:** Os diagramas abaixo seguem estritamente a especificação **UML 2.5**, gerados a partir de código **PlantUML**.
 
 ### 1. Diagrama de Casos de Uso (UML)
 
 ![Diagrama de Casos de Uso UML](https://www.plantuml.com/plantuml/png/VPFFJXin4CRl-nIZdE0GcWtvarG8GGDKbLe95N7hPMGFsn5UExAz4T3sONhikO_0YzNhNGEnr3sjv_lcvz7CUiwSH-kRMXMAxZnu0vQhxnuaMnAUZIxSFUijMgnXY-8UAxhnZugWjL5NYee2XJSMHhUkUVvjsOm07OG0mpbv6yMaFKMhFoVhl6gZR_hWijvQSWZlu0DgOGvZSkUct6ZqMhIZK1HzDJZvEHwd-_V4T4_tYL9YNng1qONb7TqyEXZ33JjFDO8aE5TDrP1gZnkqrhWH_2W06aS2NQ1kDvCo45y95J-X3KaIdRS6hktpdrsQHqZAe6c0pXjFshC8c3OlHGy-cuhrOGAd6NWSm8zaIGiEt0LAuu12VIsv9ksDI-1n1iu2-4bxQsJpn1QkIR8qRrfCt2pZve7xOYJViS01R9vXYu1jZ7QDyaFO8iEMBOPQa1gYbXcrQgVfd8ap2LMzHH-vJVWBahr9u2e3rosuGyMlrQvOj_NPOZjFIkHwdomdWRny8D7uDoNZdwZOnPQjsLecYRA_8p3P7IMCquC9G7WEfdx-koC56k7A6ey9B3DmsWrNaAIXVaDYyUjrGSRZq-v55VsM9ANCXUDScEN2F1SMkR0iqi8b98iNMRpUZyj95fT54RSsnQ6Fk0z7HrrRy1vEJbWBrKWwFMszsO0t7_0M0zvom5l_toidoLjdNWkkeFDcqQC7JrfssBHtLXbr5ZAQMlq3)
 
-<details>
-<summary>Ver código-fonte PlantUML do Diagrama de Casos de Uso</summary>
-
+**Código-fonte PlantUML:**
 ```plantuml
 @startuml
 left to right direction
@@ -109,8 +107,13 @@ UC10 ..> UC09 : <<include>>
 UC08 .> UC04 : <<extend>>
 UC12 .> UC08 : <<include>>
 @enduml
-2. Diagrama de Classes (UML)
-Snippet de código
+```
+
+---
+
+### 2. Diagrama de Classes (UML)
+
+```mermaid
 classDiagram
     class Cliente {
         +int id
@@ -178,8 +181,16 @@ classDiagram
     Agente "1" --> "0..*" PedidoAluguel : analisa
     PedidoAluguel "1" --> "1" Automovel : refere-se a
     PedidoAluguel "1" o-- "0..1" ContratoCredito : associa
-3. Diagrama de Pacotes (UML — Organização Modular Real do Código)
-Snippet de código
+```
+
+---
+
+### 3. Diagrama de Pacotes (UML — Organização Modular Real do Código)
+
+![Diagrama de Pacotes UML](https://www.plantuml.com/plantuml/png/bPBBojim48NtUeeXgtHZxqi8ITr2ARs4E7HJib3jgQD45wEHUw7qQR8e5FeKVh7Adj3O_2RWbQqpEaSVCxEX87reZ1PqKRQMNXgePN6H5URXXqRuudI9NeYR28jjxP7G1jd-RgyEbXyLVYDuVNZtDito_Da2946dmKy1y4dP4hydfs3qiJiMMaKhtWLPZSy5KKhTmqdyEufVWuSpPuDtMfOk0a29yDAPzgzLaU5CQS5LZPwO8RiBZA9TfUnTJSuqH1eN66r2dm32ZcLR8943X3n-soipoIQS66OR_vY2ObqvEn5c6giAxcfivs47-rVvWNDgTOkfLTRZSjOfX9hFJ-9sw4bHQF_OGadOet51ml9D_k5z9FHVqNFWYtWVRSbnvUSOusmVD1mS9Cbwidtm75OhPMhdmtejniDbqqrwQ8kyOnSh3qrY0eVDWmQpfo4SmCrmo6g6uI7JS53JMFDCifhj4QCIN_y_SRxOxrmA_OvqgnTT6xHbO_G_)
+
+**Código-fonte PlantUML:**
+```plantuml
 @startuml
 skinparam packageStyle folder
 
@@ -222,8 +233,16 @@ package "Persistência Remota (JSON Server)" as Backend {
 
 [httpClient.js] ..> [db.json] : <<HTTP / JSON REST>>
 @enduml
-4. Diagrama de Componentes (UML)
-Snippet de código
+```
+
+---
+
+### 4. Diagrama de Componentes (UML)
+
+![Diagrama de Componentes UML](https://www.plantuml.com/plantuml/png/TP5DJpen4CRl_HHFE2tvix3_-6B2mV0YY4Hqmsxqe1xATfIQqfAsYoR6xswt6ENYQJhFFFERQMRWFBU-tYXMcStMQD8UhQarsgSJBL3aG_Img9MNQSvVw54dit9nVO9_61dZdRTyYoQR5ATO654hSkqMk4DaD8WF1ZpSINfpIAGMzDv1fMIOGnq4OeZjfyOo3dvhb2BhOZwi_He5EIUDncNDhOZoh2npZ2C0oPHyjSOmlmg8JyPaWDbdNX5QoqbHDWKaJKDlNjpUe7-KPTb-koKv7whiyDVHKv3TaSKkw_u_wnv7xzmPlPUPu9wlk0jyiUg-1ZqQBaQC_RaNqkHdsdT4UiZyVI9DpmCC_T301Ngujz8J6v0MuK1V)
+
+**Código-fonte PlantUML:**
+```plantuml
 @startuml
 component "Front-End SPA / Multi-Page\n(HTML5 + Bootstrap 5 + ES6 Modules)" as FrontEnd {
   [Views (index, cliente, agente)]
@@ -241,34 +260,37 @@ database "db.json" as DB
 RestAPI - JsonServer
 JsonServer --> DB : Read / Write
 @enduml
-🔄 Evolução e Revisão dos Modelos ao Longo do Projeto
-Autenticação e Controle de Acesso por Perfil: Na versão inicial, todas as abas eram públicas. O sistema foi refatorado para separar as interfaces (index.html, cliente.html e agente.html), exigindo cadastro prévio e autenticação via js/auth/session.js antes de liberar operações específicas de cliente ou agente.
+```
 
-Persistência Exclusiva via REST API: O modo de contingência em localStorage foi removido de js/api/httpClient.js para garantir conformidade estrita com a persistência em servidor (db.json via json-server), exigindo que a API esteja ligada para o sistema funcionar.
+---
 
-Modularização em Pacotes ES6: O código monolítico único (app.js) foi dividido em camadas lógicas distintas (js/api/, js/auth/ e js/controllers/), alinhando a implementação real do código à notação UML do Diagrama de Pacotes.
+## 🔄 Evolução e Revisão dos Modelos ao Longo do Projeto
 
-🚀 Como Executar o Projeto
-Clone este repositório:
+1. **Autenticação e Controle de Acesso por Perfil:** Na versão inicial, todas as abas eram públicas. O sistema foi refatorado para separar as interfaces (`index.html`, `cliente.html` e `agente.html`), exigindo cadastro prévio e autenticação via `js/auth/session.js` antes de liberar operações específicas de cliente ou agente.
+2. **Persistência Exclusiva via REST API:** O modo de contingência em `localStorage` foi removido de `js/api/httpClient.js` para garantir conformidade estrita com a persistência em servidor (`db.json` via `json-server`), exigindo que a API esteja ligada para o sistema funcionar.
+3. **Modularização em Pacotes ES6:** O código monolítico único (`app.js`) foi dividido em camadas lógicas distintas (`js/api/`, `js/auth/` e `js/controllers/`), alinhando a implementação real do código à notion UML do Diagrama de Pacotes.
 
-Bash
-git clone https://github.com/FelipehmJales/sistema-aluguel-carros.git
-cd sistema-aluguel-carros
-Inicie a API REST simulada com o JSON Server:
+---
 
-Bash
-npx json-server@0.17.4 --watch db.json --port 3000
-(Caso encontre erro de política de execução no PowerShell do Windows, utilize npx.cmd json-server@0.17.4 --watch db.json --port 3000).
+## 🚀 Como Executar o Projeto
 
-Sirva o front-end através de um servidor HTTP local. Como o projeto utiliza Módulos ES6, abrir o arquivo com duplo clique bloqueia a execução. Use uma das opções abaixo:
+1. Clone este repositório:
+   ```bash
+   git clone https://github.com/FelipehmJales/sistema-aluguel-carros.git
+   cd sistema-aluguel-carros
+   ```
 
-Opção 1: Clique no botão "Go Live" da extensão Live Server no VS Code.
+2. Inicie a API REST simulada com o **JSON Server**:
+   ```bash
+   npx json-server@0.17.4 --watch db.json --port 3000
+   ```
+   *(Caso encontre erro de política de execução no PowerShell do Windows, utilize `npx.cmd json-server@0.17.4 --watch db.json --port 3000`)*.
 
-Opção 2: Execute o comando npx serve . (ou npx.cmd serve .) no terminal e abra o link http://localhost:3000 no navegador.
+3. Sirva o front-end através de um **servidor HTTP local**. Como o projeto utiliza Módulos ES6, abrir o arquivo com duplo clique bloqueia a execução. Use uma das opções abaixo:
+   * **Opção 1:** Clique no botão **"Go Live"** da extensão *Live Server* no VS Code.
+   * **Opção 2:** Execute o comando `npx serve .` (ou `npx.cmd serve .`) no terminal e abra o link `http://localhost:3000` no navegador.
 
-🔑 Credenciais de Teste (db.json)
-Perfil Cliente: carlos@email.com | Senha: 123
-
-Perfil Agente (Empresa): contato@localiza.com | Senha: 123
-
-Perfil Agente (Banco): credito@itau.com | Senha: 123
+### 🔑 Credenciais de Teste (`db.json`)
+* **Perfil Cliente:** `carlos@email.com` | Senha: `123`
+* **Perfil Agente (Empresa):** `contato@localiza.com` | Senha: `123`
+* **Perfil Agente (Banco):** `credito@itau.com` | Senha: `123`
