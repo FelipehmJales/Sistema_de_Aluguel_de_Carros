@@ -47,7 +47,7 @@ O **DriveSys** é um sistema web modular de apoio à gestão de aluguéis de aut
 
 ### 1. Diagrama de Casos de Uso (UML)
 
-![Diagrama de Casos de Uso UML](https://www.plantuml.com/plantuml/svg/SoWkIImgAStDuOhMYbNGrRLJSCh9J4x9BrAevb800cq5u1A34ajBaaiIJ2n9BCb91R9004917182B193D1A0000)
+![Diagrama de Casos de Uso UML](docs/casos-de-uso.png)
 
 <details>
 <summary>Ver código-fonte PlantUML do Diagrama de Casos de Uso</summary>
@@ -109,7 +109,8 @@ UC10 ..> UC09 : <<include>>
 UC08 .> UC04 : <<extend>>
 UC12 .> UC08 : <<include>>
 @enduml
-
+2. Diagrama de Classes (UML)
+Snippet de código
 classDiagram
     class Cliente {
         +int id
@@ -177,7 +178,8 @@ classDiagram
     Agente "1" --> "0..*" PedidoAluguel : analisa
     PedidoAluguel "1" --> "1" Automovel : refere-se a
     PedidoAluguel "1" o-- "0..1" ContratoCredito : associa
-
+3. Diagrama de Pacotes (UML — Organização Modular Real do Código)
+Snippet de código
 @startuml
 skinparam packageStyle folder
 
@@ -220,7 +222,8 @@ package "Persistência Remota (JSON Server)" as Backend {
 
 [httpClient.js] ..> [db.json] : <<HTTP / JSON REST>>
 @enduml
-
+4. Diagrama de Componentes (UML)
+Snippet de código
 @startuml
 component "Front-End SPA / Multi-Page\n(HTML5 + Bootstrap 5 + ES6 Modules)" as FrontEnd {
   [Views (index, cliente, agente)]
@@ -238,6 +241,12 @@ database "db.json" as DB
 RestAPI - JsonServer
 JsonServer --> DB : Read / Write
 @enduml
+🔄 Evolução e Revisão dos Modelos ao Longo do Projeto
+Autenticação e Controle de Acesso por Perfil: Na versão inicial, todas as abas eram públicas. O sistema foi refatorado para separar as interfaces (index.html, cliente.html e agente.html), exigindo cadastro prévio e autenticação via js/auth/session.js antes de liberar operações específicas de cliente ou agente.
+
+Persistência Exclusiva via REST API: O modo de contingência em localStorage foi removido de js/api/httpClient.js para garantir conformidade estrita com a persistência em servidor (db.json via json-server), exigindo que a API esteja ligada para o sistema funcionar.
+
+Modularização em Pacotes ES6: O código monolítico único (app.js) foi dividido em camadas lógicas distintas (js/api/, js/auth/ e js/controllers/), alinhando a implementação real do código à notação UML do Diagrama de Pacotes.
 
 🚀 Como Executar o Projeto
 Clone este repositório:
