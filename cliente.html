@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DriveSys - Portal do Cliente</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-light">
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+    <div class="container">
+      <span class="navbar-brand fw-bold">
+        <i class="bi bi-car-front-fill me-2"></i>DriveSys | Portal do Cliente
+      </span>
+      <div class="d-flex align-items-center gap-3">
+        <span class="text-white small" id="headerNomeCliente"></span>
+        <button class="btn btn-sm btn-outline-light" id="btnLogout">
+          <i class="bi bi-box-arrow-right me-1"></i>Sair
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-3">
+    <div id="apiErrorAlert" class="alert alert-danger d-none shadow-sm" role="alert">
+      <i class="bi bi-hdd-network-fill me-2"></i>
+      <strong>Erro de comunicação com o servidor (<code>http://localhost:3000</code>)!</strong>
+      Verifique se o JSON Server está em execução.
+    </div>
+  </div>
+
+  <main class="container my-4">
+    <ul class="nav nav-pills nav-fill bg-white p-2 rounded shadow-sm mb-4" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active fw-semibold" id="pedidos-tab" data-bs-toggle="pill" data-bs-target="#tab-pedidos" type="button" role="tab">
+          <i class="bi bi-calendar2-check-fill me-1"></i> Meus Pedidos de Aluguel
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link fw-semibold" id="perfil-tab" data-bs-toggle="pill" data-bs-target="#tab-perfil" type="button" role="tab">
+          <i class="bi bi-person-vcard-fill me-1"></i> Meus Dados Cadastrais e Rendimentos
+        </button>
+      </li>
+    </ul>
+
+    <div class="tab-content">
+      <div class="tab-pane fade show active" id="tab-pedidos" role="tabpanel">
+        <div class="row g-4">
+          <div class="col-lg-5">
+            <div class="card border-0 shadow-sm">
+              <div class="card-header bg-white py-3">
+                <h5 class="card-title mb-0 fw-bold text-primary" id="formPedidoTitulo">
+                  <i class="bi bi-plus-circle-fill me-2"></i>Introduzir Pedido de Aluguel
+                </h5>
+              </div>
+              <div class="card-body">
+                <form id="formPedido">
+                  <input type="hidden" id="pedidoId">
+
+                  <div class="mb-3">
+                    <label class="form-label fw-semibold">Automóvel Desejado *</label>
+                    <select id="pedidoAutomovelId" class="form-select" required></select>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label fw-semibold">Data de Início *</label>
+                      <input type="date" id="pedidoDataInicio" class="form-control" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label fw-semibold">Duração (Dias) *</label>
+                      <input type="number" id="pedidoDias" class="form-control" min="1" max="365" value="7" required>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label fw-semibold">Registo de Propriedade no Contrato *</label>
+                    <select id="pedidoTipoPropriedade" class="form-select" required>
+                      <option value="Empresa">Propriedade da Empresa Locadora (Aluguel Simples)</option>
+                      <option value="Banco">Propriedade do Banco Agente (Leasing / Alienação)</option>
+                      <option value="Cliente">Propriedade do Cliente (Aluguel com Opção de Compra)</option>
+                    </select>
+                  </div>
+
+                  <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox" id="pedidoRequerCredito">
+                    <label class="form-check-label fw-semibold" for="pedidoRequerCredito">
+                      Associar a um Contrato de Crédito Bancário
+                    </label>
+                  </div>
+
+                  <div id="blocoContratoCredito" class="p-3 bg-light rounded border mb-3 d-none">
+                    <h6 class="fw-bold text-secondary mb-2">
+                      <i class="bi bi-bank me-1"></i>Dados do Contrato de Crédito
+                    </h6>
+                    <div class="mb-2">
+                      <label class="form-label small fw-semibold">Banco Agente Concessor *</label>
+                      <select id="pedidoBancoId" class="form-select form-select-sm"></select>
+                    </div>
+                    <div class="row">
+                      <div class="col-6">
+                        <label class="form-label small fw-semibold">Nº de Parcelas</label>
+                        <select id="pedidoParcelas" class="form-select form-select-sm">
+                          <option value="3">3x (1.49% a.m.)</option>
+                          <option value="6">6x (1.49% a.m.)</option>
+                          <option value="12">12x (1.69% a.m.)</option>
+                          <option value="24">24x (1.89% a.m.)</option>
+                        </select>
+                      </div>
+                      <div class="col-6">
+                        <label class="form-label small fw-semibold">Valor Total</label>
+                        <input type="text" id="pedidoValorEstimado" class="form-control form-control-sm" readonly>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="d-grid gap-2 mt-3">
+                    <button type="submit" class="btn btn-success fw-semibold">
+                      <i class="bi bi-send-check-fill me-1"></i>Submeter Pedido
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary d-none" id="btnCancelarEdicaoPedido">
+                      Cancelar Modificação
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-7">
+            <div class="card border-0 shadow-sm">
+              <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0 fw-bold text-dark">
+                  <i class="bi bi-clock-history me-2"></i>Meus Pedidos e Status
+                </h5>
+                <span class="badge bg-success rounded-pill" id="contadorPedidos">0</span>
+              </div>
+              <div class="card-body" id="listaPedidosCliente"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane fade" id="tab-perfil" role="tabpanel">
+        <div class="card border-0 shadow-sm col-lg-8 mx-auto">
+          <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+            <h5 class="card-title mb-0 fw-bold text-primary">
+              <i class="bi bi-person-gear me-2"></i>Atualizar Meu Cadastro
+            </h5>
+            <button type="button" class="btn btn-sm btn-outline-danger" id="btnExcluirConta">
+              <i class="bi bi-trash me-1"></i>Excluir Minha Conta
+            </button>
+          </div>
+          <div class="card-body">
+            <form id="formPerfilCliente">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-semibold">Nome Completo *</label>
+                  <input type="text" id="perfilNome" class="form-control" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-semibold">Profissão *</label>
+                  <input type="text" id="perfilProfissao" class="form-control" required>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-semibold">E-mail *</label>
+                  <input type="email" id="perfilEmail" class="form-control" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-semibold">Senha *</label>
+                  <input type="password" id="perfilSenha" class="form-control" required>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-semibold">RG *</label>
+                  <input type="text" id="perfilRg" class="form-control" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-semibold">CPF *</label>
+                  <input type="text" id="perfilCpf" class="form-control" required>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Endereço Completo *</label>
+                <input type="text" id="perfilEndereco" class="form-control" required>
+              </div>
+
+              <hr>
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <label class="form-label fw-bold text-secondary mb-0">
+                  Entidades Empregadoras e Rendimentos (Máx. 3)
+                </label>
+                <button type="button" class="btn btn-sm btn-outline-primary" id="btnAddRendimentoPerfil">
+                  <i class="bi bi-plus-circle me-1"></i>Adicionar
+                </button>
+              </div>
+              <div id="listaRendimentosPerfil"></div>
+
+              <button type="submit" class="btn btn-primary fw-semibold mt-3">
+                <i class="bi bi-save me-1"></i>Salvar Alterações
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module" src="js/controllers/clienteController.js"></script>
+</body>
+</html>

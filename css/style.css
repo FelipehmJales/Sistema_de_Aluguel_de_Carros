@@ -1,0 +1,50 @@
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+.nav-pills .nav-link {
+  color: #495057;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.nav-pills .nav-link.active {
+  background-color: #0d6efd;
+  color: #fff;
+  box-shadow: 0 3px 8px rgba(13, 110, 253, 0.25);
+}
+
+.card {
+  border-radius: 0.75rem;
+}
+
+.card-header {
+  border-top-left-radius: 0.75rem !important;
+  border-top-right-radius: 0.75rem !important;
+}
+
+.pedido-card {
+  border-left: 5px solid #0d6efd;
+  transition: transform 0.15s ease;
+}
+
+.pedido-card:hover {
+  transform: translateY(-2px);
+}
+
+.pedido-status-analise {
+  border-left-color: #ffc107 !important;
+}
+
+.pedido-status-aprovado {
+  border-left-color: #0dcaf0 !important;
+}
+
+.pedido-status-executado {
+  border-left-color: #198754 !important;
+}
+
+.pedido-status-rejeitado,
+.pedido-status-cancelado {
+  border-left-color: #dc3545 !important;
+}
