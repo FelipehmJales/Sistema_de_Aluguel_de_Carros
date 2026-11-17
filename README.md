@@ -1,4 +1,3 @@
-```markdown
 # Sistema de Aluguel de Carros (DriveSys)
 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
@@ -253,7 +252,7 @@ Modularização em Pacotes ES6: O código monolítico único (app.js) foi dividi
 Clone este repositório:
 
 Bash
-git clone https://github.com/FelipehmJales/sistema-aluguel-carros.git
+git clone [https://github.com/FelipehmJales/sistema-aluguel-carros.git](https://github.com/FelipehmJales/sistema-aluguel-carros.git)
 cd sistema-aluguel-carros
 Inicie a API REST simulada com o JSON Server:
 
