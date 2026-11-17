@@ -1,3 +1,4 @@
+Markdown
 # Sistema de Aluguel de Carros (DriveSys)
 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
@@ -109,3 +110,166 @@ UC10 ..> UC09 : <<include>>
 UC08 .> UC04 : <<extend>>
 UC12 .> UC08 : <<include>>
 @enduml
+2. Diagrama de Classes (UML)
+Snippet de código
+classDiagram
+    class Cliente {
+        +int id
+        +String nome
+        +String email
+        +String senha
+        +String rg
+        +String cpf
+        +String endereco
+        +String profissao
+        +cadastrar()
+        +autenticar()
+        +atualizar()
+        +remover()
+    }
+
+    class Rendimento {
+        +String entidadeEmpregadora
+        +double valorRendimento
+    }
+
+    class Agente {
+        +int id
+        +String nome
+        +String email
+        +String senha
+        +String tipo
+        +String documento
+        +autenticar()
+        +avaliarPedido()
+        +executarContrato()
+    }
+
+    class PedidoAluguel {
+        +int id
+        +String dataInicio
+        +int dias
+        +double valorTotal
+        +String tipoPropriedade
+        +boolean requerCredito
+        +String status
+        +String parecerAgente
+    }
+
+    class ContratoCredito {
+        +int bancoId
+        +double valorFinanciado
+        +int parcelas
+        +double taxaJuros
+    }
+
+    class Automovel {
+        +int id
+        +String matricula
+        +int ano
+        +String marca
+        +String modelo
+        +String placa
+        +String proprietarioAtual
+        +double diaria
+    }
+
+    Cliente "1" *-- "1..3" Rendimento : possui
+    Cliente "1" --> "0..*" PedidoAluguel : realiza
+    Agente "1" --> "0..*" PedidoAluguel : analisa
+    PedidoAluguel "1" --> "1" Automovel : refere-se a
+    PedidoAluguel "1" o-- "0..1" ContratoCredito : associa
+3. Diagrama de Pacotes (UML — Organização Modular Real do Código)
+Snippet de código
+@startuml
+skinparam packageStyle folder
+
+package "Apresentação (Views HTML/CSS)" as View {
+  [index.html]
+  [cliente.html]
+  [agente.html]
+  [css/style.css]
+}
+
+package "Controladores de Domínio (js/controllers)" as Controllers {
+  [loginController.js]
+  [clienteController.js]
+  [agenteController.js]
+}
+
+package "Controle de Acesso e Sessão (js/auth)" as Auth {
+  [session.js]
+}
+
+package "Comunicação HTTP REST (js/api)" as ApiClient {
+  [httpClient.js]
+}
+
+package "Persistência Remota (JSON Server)" as Backend {
+  [db.json]
+}
+
+[index.html] ..> [loginController.js] : <<import>>
+[cliente.html] ..> [clienteController.js] : <<import>>
+[agente.html] ..> [agenteController.js] : <<import>>
+
+[loginController.js] ..> [session.js] : <<use>>
+[clienteController.js] ..> [session.js] : <<use>>
+[agenteController.js] ..> [session.js] : <<use>>
+
+[loginController.js] ..> [httpClient.js] : <<use>>
+[clienteController.js] ..> [httpClient.js] : <<use>>
+[agenteController.js] ..> [httpClient.js] : <<use>>
+
+[httpClient.js] ..> [db.json] : <<HTTP / JSON REST>>
+@enduml
+4. Diagrama de Componentes (UML)
+Snippet de código
+@startuml
+component "Front-End SPA / Multi-Page\n(HTML5 + Bootstrap 5 + ES6 Modules)" as FrontEnd {
+  [Views (index, cliente, agente)]
+  [Controllers]
+  [Auth Session Guard]
+  [HTTP Client (Fetch API)]
+}
+
+interface "REST API (HTTP/JSON :3000)" as RestAPI
+
+component "JSON Server v0.17.4" as JsonServer
+database "db.json" as DB
+
+[HTTP Client (Fetch API)] -( RestAPI
+RestAPI - JsonServer
+JsonServer --> DB : Read / Write
+@enduml
+🔄 Evolução e Revisão dos Modelos ao Longo do Projeto
+Autenticação e Controle de Acesso por Perfil: Na versão inicial, todas as abas eram públicas. O sistema foi refatorado para separar as interfaces (index.html, cliente.html e agente.html), exigindo cadastro prévio e autenticação via js/auth/session.js antes de liberar operações específicas de cliente ou agente.
+
+Persistência Exclusiva via REST API: O modo de contingência em localStorage foi removido de js/api/httpClient.js para garantir conformidade estrita com a persistência em servidor (db.json via json-server), exigindo que a API esteja ligada para o sistema funcionar.
+
+Modularização em Pacotes ES6: O código monolítico único (app.js) foi dividido em camadas lógicas distintas (js/api/, js/auth/ e js/controllers/), alinhando a implementação real do código à notação UML do Diagrama de Pacotes.
+
+🚀 Como Executar o Projeto
+Clone este repositório:
+
+Bash
+git clone [https://github.com/FelipehmJales/sistema-aluguel-carros.git](https://github.com/FelipehmJales/sistema-aluguel-carros.git)
+cd sistema-aluguel-carros
+Inicie a API REST simulada com o JSON Server:
+
+Bash
+npx json-server@0.17.4 --watch db.json --port 3000
+(Caso encontre erro de política de execução no PowerShell do Windows, utilize npx.cmd json-server@0.17.4 --watch db.json --port 3000).
+
+Sirva o front-end através de um servidor HTTP local. Como o projeto utiliza Módulos ES6, abrir o arquivo com duplo clique bloqueia a execução. Use uma das opções abaixo:
+
+Opção 1: Clique no botão "Go Live" da extensão Live Server no VS Code.
+
+Opção 2: Execute o comando npx serve . (ou npx.cmd serve .) no terminal e abra o link http://localhost:3000 no navegador.
+
+🔑 Credenciais de Teste (db.json)
+Perfil Cliente: carlos@email.com | Senha: 123
+
+Perfil Agente (Empresa): contato@localiza.com | Senha: 123
+
+Perfil Agente (Banco): credito@itau.com | Senha: 123
